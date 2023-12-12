@@ -31,15 +31,15 @@ def plot_vectors(list_v, list_label, list_color):
 
 v = np.array([[1], [3]])
 # Arguments: list of vectors as NumPy arrays, labels, colors.
-# plot_vectors([v], [f"$v$"], ["black"])
+plot_vectors([v], [f"$v$"], ["black"])
 
-# plot_vectors([v, 2*v, -2*v], [f"$v$", f"$2v$", f"$-2v$"], ["black", "green", "blue"])
+plot_vectors([v, 2*v, -2*v], [f"$v$", f"$2v$", f"$-2v$"], ["black", "green", "blue"])
 
 
 vec1 = np.array([[1], [3]])
 vec2 = np.array([[4], [-1]])
 
-# plot_vectors([vec1, vec2, vec1 + vec2], [f"$vec1$", f"$vec2$", f"$vec1 + vec2$"], ["black", "black", "red"])
+plot_vectors([vec1, vec2, vec1 + vec2], [f"$vec1$", f"$vec2$", f"$vec1 + vec2$"], ["black", "black", "red"])
 
 
 vec3 = np.array([[2], [3]])
