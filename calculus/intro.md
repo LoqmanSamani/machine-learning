@@ -125,7 +125,7 @@ plot_funcs(power_f, der_f)
 
 
     
-![png](output_10_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_10_0.png)
     
 
 
@@ -362,7 +362,7 @@ plot_funcs(f_symb_numpy, dfdx_symb_numpy)
 
 
     
-![png](output_34_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_34_0.png)
     
 
 
@@ -419,7 +419,7 @@ plt.show()
 
 
     
-![png](output_41_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_41_0.png)
     
 
 
@@ -432,7 +432,7 @@ plt.show()
 
 
     
-![png](output_42_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_42_0.png)
     
 
 
@@ -445,7 +445,7 @@ plt.show()
 
 
     
-![png](output_43_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_43_0.png)
     
 
 
@@ -456,7 +456,7 @@ plot_funcs(dfdx_symb_numpy, grads, label1="f'(x) exact", label2="f'(x) approxima
 
 
     
-![png](output_44_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_44_0.png)
     
 
 
@@ -477,7 +477,7 @@ plt.show()
 
 
     
-![png](output_46_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_46_0.png)
     
 
 
@@ -490,7 +490,7 @@ plt.show()
 
 
     
-![png](output_47_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_47_0.png)
     
 
 
@@ -501,7 +501,7 @@ plot_funcs(lambdify(x, dfdx_composed, 'numpy'), grads_, label1="f'(x) exact", la
 
 
     
-![png](output_48_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_48_0.png)
     
 
 
@@ -523,7 +523,7 @@ plot_funcs(np.vectorize(dfdx_abs), np.gradient(abs(mat2), mat2))
 
 
     
-![png](output_50_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_50_0.png)
     
 
 
@@ -622,7 +622,7 @@ plot_funcs(power_f, vmap(grad(power_f)))
 
 
     
-![png](output_63_0.png)
+![png](https://github.com/LoqmanSamani/machine_learning/blob/systembiology/plots/output_63_0.png)
     
 
 
