@@ -1,4 +1,7 @@
 import numpy as np
+import pandas as pd
+import seaborn as sns
+import smartsolve as ss
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_regression
 
@@ -118,7 +121,6 @@ class SingleRegressionPerceptron(object):
 
             self.params = params
             self.cost.append(cost)
-
 
 
 
@@ -325,5 +327,170 @@ plt.title("Actual vs Predicted Values 1 (model 1)")
 
 plt.legend()
 plt.show()
+
+
+
+
+# Analyse data to choose the best features
+
+path3 = "/home/sam/Documents/projects/machine_learning/data/house.csv"
+
+data3 = pd.read_csv(path3)
+print(data3[:10])
+print(data3.columns)
+
+
+subdata = data3[['MSSubClass', 'LotFrontage', 'OverallQual',
+                 'OverallCond', 'YearBuilt', 'BedroomAbvGr',
+                 'TotRmsAbvGrd', 'GarageArea', 'SalePrice', 'GrLivArea']]
+print(subdata)
+
+y3 = np.array(data3["SalePrice"])
+print(y3.shape)
+""" (1460,) """
+
+corr_matrix = subdata.corr()
+heatmap = sns.heatmap(corr_matrix, cmap='coolwarm', annot=True)
+print(heatmap)
+
+X3 = subdata[["GarageArea", "GrLivArea", "OverallQual"]]
+print(X3)
+
+fn_1 = np.array(X3["GarageArea"])
+fn_2 = np.array(X3["GrLivArea"])
+fn_3 = np.array(X3["GarageArea"])
+
+# Normalize data with min-max normalization (val - min / max - min)
+
+
+def min_max_n(array):
+
+    max_val = np.max(array)
+    min_val = np.min(array)
+
+    return (array - min_val) / (max_val - min_val)
+
+
+f_1 = min_max_n(fn_1)
+f_2 = min_max_n(fn_2)
+f_3 = min_max_n(fn_3)
+Y3 = min_max_n(y3)
+
+
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(f_1, f_2, f_3, c='r', marker='o')
+ax.set_xlabel('F1 Label')
+ax.set_ylabel('F2 Label')
+ax.set_zlabel('F3 Label')
+
+plt.show()
+
+f_s = []
+for i in range(len(f_1)):
+    lst = [f_1[i], f_2[i], f_3[i]]
+    f_s.append(lst)
+
+X4 = np.array(f_s)
+print(X4.shape)
+""" (1460, 3) """
+
+print(Y3[:10])
+"""
+[0.24107763 0.20358284 0.26190807 0.14595195 0.29870851 0.15011804
+ 0.37786419 0.22927371 0.13192612 0.11540064]
+
+"""
+
+x_test3 = X4[1360:]
+y_test3 = Y3[1360:]
+print(x_test3)
+print(y_test3)
+
+
+Y3 = Y3.reshape((1, 1460))
+print(Y3.shape)
+""" (1, 1460) """
+
+X4 = X4.reshape((3, 1460))
+print(X4.shape)
+""" (3, 1460) """
+
+# Split data
+x_train3 = X4[:1360]
+y_train3 = Y3[:1360]
+
+
+
+
+model4 = SingleRegressionPerceptron(learning_rate=1e-2, max_iter=300)
+model4.train(x_train3, y_train3)
+
+
+print(model4.params)
+""" {'W': array([[0.03754652, 0.05214233, 0.03944621]]), 'b': array([[0.15926917]])} """
+print(model4.cost)
+""" [0.026932782132138837, 0.026409792314526597, 0.025899979274463334, ...,  0.0061794388280656445, 0.006179143402742181, 0.0061788547186426256] """
+
+
+iterations2 = range(1, len(model4.cost) + 1)
+
+plt.plot(iterations2, model4.cost, label="Training Cost", c="red")
+plt.xlabel("Number of Iterations")
+plt.ylabel("Cost")
+plt.title("Change of Training Cost Over Iterations2 (model 1)")
+plt.legend()
+plt.show()
+
+x_test3 = x_test3.reshape((3, 100))
+y_test3 = y_test3.reshape((1, 100))
+
+
+predicted2 = (np.array([0.03754652, 0.05214233, 0.03944621]).reshape((1, 3)) @ x_test3) + 0.15926917
+print(predicted2.shape)
+print(x_test3.shape)
+print(y_test3.shape)
+
+# calculate mean square error
+def mse(Y, Y_hat):
+    se = sum((Y - Y_hat)**2)
+    return  np.mean(se)
+
+print(mse(y_test3, predicted2))
+""" 0.010389232802504693 """
+
+
+
+
+plt.scatter(x_test3[0, :], y_test3, c="blue", label="Actual Data (Feature 1)")
+plt.scatter(x_test3[0, :], predicted2, c="red", label="Predicted Data")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Actual vs Predicted Values 1 (model 1)")
+plt.legend()
+plt.show()
+
+
+plt.scatter(x_test3[1, :], y_test3, c="black", label="Actual Data (Feature 1)")
+plt.scatter(x_test3[1, :], predicted2, c="red", label="Predicted Data")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Actual vs Predicted Values 2 (model 1)")
+plt.legend()
+plt.show()
+
+
+
+plt.scatter(x_test3[2, :], y_test3, c="green", label="Actual Data (Feature 1)")
+plt.scatter(x_test3[2, :], predicted2, c="yellow", label="Predicted Data")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Actual vs Predicted Values 3 (model 1)")
+plt.legend()
+plt.show()
+
 
 
