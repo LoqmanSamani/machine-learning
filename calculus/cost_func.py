@@ -1,3 +1,7 @@
+
+
+
+
 from jax import grad  # used to perform automatic differentiation
 import jax.numpy as jnp  # integrated numpy in jax library
 import matplotlib.pyplot as plt
