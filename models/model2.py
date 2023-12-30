@@ -96,7 +96,7 @@ class Perceptron(object):
 
 
 
-path = "/machine_learning/data/tvmarketing.csv"
+path = "/home/sam/Documents/projects/machine_learning/data/tvmarketing.csv"
 
 data = pd.read_csv(path)
 print(data)

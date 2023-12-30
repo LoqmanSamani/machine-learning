@@ -43,7 +43,7 @@ class SingleRegressionPerceptron(object):
         W = params["W"]
         b = params["b"]
 
-        y_hat = np.dot(W, X) + b
+        y_hat = W @ X + b
 
         return y_hat
 
