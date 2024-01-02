@@ -238,6 +238,13 @@ plt.legend()
 plt.show()
 
 
+"""
+Obviously, gradient descent will converge much slower than Newton's method. And trying to increase learning rate, 
+it might not even work at all. This illustrates again the disadvantages of gradient descent in comparison 
+with Newton's method. However, note, that Newton's method required calculation of an inverted Hessian matrix, 
+which is a very computationally expensive calculation to perform when you have, say, a thousand of parameters.
+"""
+
 
 
 
