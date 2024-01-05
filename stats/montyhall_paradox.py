@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+
+
 # Monty Hall Paradox 1
 
 def montyhall1(num_doors=3, choice=2, change=False):
@@ -27,6 +30,9 @@ def montyhall1(num_doors=3, choice=2, change=False):
     return choices
 
 
+
+
+
 def call_mh1(num_iter=100):
 
     n1 = []
@@ -44,7 +50,10 @@ def call_mh1(num_iter=100):
 
     return prob1, prob2
 
-"""
+
+
+
+
 probs1 = []
 probs2 = []
 
@@ -61,7 +70,7 @@ plt.pie([np.mean(probs1), np.mean(probs2)], labels=["Not Change", "Change"], aut
 plt.axis('equal')
 plt.title("Monty Hall Paradox")
 plt.show()
-"""
+
 
 """
 32.5
@@ -96,6 +105,8 @@ plt.show()
 """
 
 
+
+
 # Monty Hall Paradox 2
 
 
@@ -123,6 +134,9 @@ def montyhall2(num_doors=10, choice=5, k=1, change=False):
         choices = {choice: choices[choice]}
 
     return choices
+
+
+
 
 
 def call_mh2(ks, num_doors=10, choice=5, num_iter=100):
