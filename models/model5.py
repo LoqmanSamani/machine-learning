@@ -1,13 +1,16 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+import math
+from scipy.special import comb
 
 
-# Compute the estimated parameters from the training dataset
+
+
 class EstimateParams(object):
 
     def __init__(self):
         self.params = {}
+
 
     def gaussian_params(self, X):
 
@@ -16,6 +19,7 @@ class EstimateParams(object):
 
         return mu, sigma
 
+
     def uniform_params(self, X):
 
         lower_bound = round(np.min(X), 2)
@@ -23,12 +27,14 @@ class EstimateParams(object):
 
         return lower_bound, upper_bound
 
+
     def binom_params(self, X):
 
         n = 30
         p = round(np.mean(X) / 30, 2)
 
         return n, p
+
 
     def call_func(self, X, dist):
 
@@ -45,6 +51,8 @@ class EstimateParams(object):
             print(f"There is no distribution named {dist} in this model!")
 
         return p1, p2
+
+
 
     def train_params(self, data, dists):
 
@@ -83,9 +91,88 @@ class EstimateParams(object):
 
 
 
+class Prediction(object):
 
 
 
+    def pdf_uniform(self, X, lower_bound, upper_bound):
+
+        """Calculates the probability density function (PDF) of a uniform distribution"""
+
+        if lower_bound <= X <= upper_bound:
+            pdf = 1 / (upper_bound - lower_bound)
+        else:
+            pdf = 0
+
+        return pdf
+
+
+
+    def pdf_gaussian(self, X, mu, sigma):
+
+        """Calculate the probability density function (PDF) of a Gaussian distribution"""
+
+        pdf = (1 / (sigma * np.sqrt(2 * math.pi))) * np.exp((-1 / 2) * ((X - mu) / sigma) ** 2)
+
+        return pdf
+
+
+
+
+
+    def pmf_binomial(self, X, size, p):
+
+        """Calculate the probability mass function (PMF) of a binomial distribution(discrete)"""
+
+        pmf = comb(size, X) * (p ** X) * ((1 - p) ** (size - X))
+
+        return pmf
+
+
+
+
+
+    def class_probs(self, data):
+
+        """Computes the estimated probabilities of each breed"""
+        probs = {}
+        breeds = data.groupby("breed")
+
+        for group, breed in breeds:
+            prob = len(breed) / len(data)
+            probs[group] = round(prob, 2)
+
+        return probs
+
+
+
+
+    def compute_prob(self, X, feats, breed, params):
+
+        feat_x = list(zip(feats, X))
+        pdf1 = self.pdf_gaussian(X=feat_x[0][1], mu=params[breed]["height"]["mu"], sigma=params[breed]["height"]["sigma"])
+        pdf2 = self.pdf_gaussian(X=feat_x[1][1], mu=params[breed]["weight"]["mu"], sigma=params[breed]["weight"]["sigma"])
+        pmf = self.pmf_binomial(X=feat_x[2][1], size=params[breed]["bark_days"]["n"], p=params[breed]["bark_days"]["p"])
+        pdf3 = self.pdf_uniform(X=feat_x[3][1], lower_bound=params[breed]["ear_head_ratio"]["a"], upper_bound=params[breed]["ear_head_ratio"]["b"])
+
+        prob = pdf1 * pdf2 * pmf * pdf3
+
+        return prob
+
+
+
+
+
+    def predict(self, X, feats, params, probs):
+
+        breeds = [0.0 for _ in range(len(probs.keys()))]
+
+        for i in range(len(probs.keys())):
+            breeds[i] = self.compute_prob(X, feats, i, params) * probs[i]
+
+        prediction = np.argmax(breeds)
+
+        return prediction
 
 
 
@@ -164,6 +251,34 @@ print(parameters.params)
      'ear_head_ratio': {'a': 0.1, 'b': 0.3}}
 }
 
+"""
+
+prediction = Prediction()
+
+probs = prediction.class_probs(dog_data[["height", "weight", "bark_days", "ear_head_ratio", "breed"]])
+print(probs)
+""" {0: 0.35, 1: 0.39, 2: 0.26} """
+
+test_data = df_test[["height", "weight", "bark_days", "ear_head_ratio"]]
+feats1 = ["height", "weight", "bark_days", "ear_head_ratio"]
+test_labels = df_test[["breed"]]
+
+Y = test_labels.values.tolist()
+
+preds = []
+
+for x in test_data.values.tolist():
+    pred = prediction.predict(x, feats1, parameters.params, probs)
+    preds.append(pred)
+
+print(preds[:10])
+""" [2, 1, 2, 1, 0, 1, 2, 1, 0, 0]"""
+
+accuracy = sum([1 if x == y else 0 for x, y in zip(preds, Y)]) / len(preds)
+print(accuracy)
+""" 1.0 """
+"""
+The model achieved 100% accuracy on the test data :)
 """
 
 
