@@ -4,7 +4,7 @@ import math
 from scipy.special import comb
 
 
-
+# Naive Bayes Classifier (Continuous)
 
 class EstimateParams(object):
 
