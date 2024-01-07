@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.special import erfinv
 from scipy.stats import binom
 import pandas as pd
-
+import pickle
 
 
 
@@ -175,5 +175,12 @@ print(dog_data1.head(20))
 # save the data in a csv file format
 dog_data1.to_csv("/home/sam/Documents/projects/machine_learning/data/dog_data.csv", index=False)
 
+
+
+
+
+pre_loaded_df = pd.read_pickle("/home/sam/Documents/machine_learning/stats/3/df_all_breeds.pkl")
+df = pd.DataFrame(pre_loaded_df)
+df.to_csv(r'file.csv')
 
 
