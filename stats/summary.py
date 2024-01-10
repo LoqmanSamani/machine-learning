@@ -4,7 +4,7 @@ import pandas as pd
 
 pd.set_option("display.max_columns", None)
 
-path1 = "/home/sam/Documents/projects/machine_learning/data/anscombe.csv"
+path1 = ".../anscombe.csv"
 
 with open(path1, "r") as file:
     data1 = pd.read_csv(file)
@@ -115,7 +115,7 @@ plt.tight_layout()
 plt.show()
 
 
-path2 = "/home/sam/Documents/projects/machine_learning/data/datasaurus.csv"
+path2 = ".../datasaurus.csv"
 
 with open(path2, "r") as file1:
     data2 = pd.read_csv(file1)
