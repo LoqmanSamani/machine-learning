@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 
 def compute_cost(x, y, w, b):
@@ -62,7 +63,7 @@ for i, w in enumerate(ws):
 w1, b1 = np.meshgrid(ws1, bs1)
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
-ax.plot_surface(w1, b1, y_hat , cmap='coolwarm')
+ax.plot_surface(w1, b1, y_hat, cmap='coolwarm')
 ax.set_xlabel('W')
 ax.set_ylabel('B')
 ax.set_zlabel('Cost')
@@ -70,3 +71,18 @@ ax.set_label("Cost Function")
 
 plt.show()
 
+
+np.random.seed(1)
+a = np.random.rand(10000000)  # very large arrays
+b = np.random.rand(10000000)
+
+tic = time.time()  # capture start time
+c = np.dot(a, b)
+toc = time.time()  # capture end time
+
+
+print(f"my_dot(a, b) =  {c:.4f}")
+print(f"loop version duration: {1000*(toc-tic):.4f} ms ")
+
+del(a)
+del(b)  #remove these big arrays from memory
