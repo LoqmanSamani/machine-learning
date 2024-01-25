@@ -7,7 +7,8 @@ import pandas as pd
 
 class Regression:
 
-    def __init__(self, alpha=1e-2, norm_x=None, norm_y=None, max_iter=400, params=None, print_cost=100, sigma=1e-2, threshold=1e-8, threshold1=1e-12, epsilon=1e-8):
+    def __init__(self, alpha=1e-2, norm_x=None, norm_y=None, max_iter=400,
+                 params=None, print_cost=100, sigma=1e-2, threshold=1e-8, threshold1=1e-12, epsilon=1e-8):
 
         self.alpha = alpha
         self.norm_x = norm_x
