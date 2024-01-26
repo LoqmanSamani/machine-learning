@@ -4,7 +4,7 @@ import math
 from scipy.special import comb
 
 
-# Naive Bayes Classifier (Continuous)
+""" A Naive Bayes Classifier Model for Predicting the Probability of An input belonging to a category (Continuous)"""
 
 class EstimateParams(object):
 

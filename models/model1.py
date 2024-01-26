@@ -1,14 +1,11 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import smartsolve as ss
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_regression
 
 
-
-
-# a regression model with just one perceptron
+""" a regression model with one perceptron (Linear Regression)"""
 
 
 class SingleRegressionPerceptron(object):

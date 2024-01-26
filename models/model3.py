@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 from sklearn.datasets import make_blobs
 
-# a single perceptron neural network model to solve a simple classification problem
+
+"""a single perceptron neural network model to solve a simple classification problem (A Logistic Regression Model)"""
+
 
 class Classification(object):
 

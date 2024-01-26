@@ -1,9 +1,9 @@
-# A Regression Model with batch gradient descent algorithm
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
+""" # A Regression Model with batch gradient descent algorithm """
 
 class Regression:
 

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
+""" A Linear Regression Model """
 class Perceptron(object):
     def __init__(self, params=None, norm=True):
 

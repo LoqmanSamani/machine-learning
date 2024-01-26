@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-# Implement a naive Bayes classifier for categorical data (email spam detector).
+""" A naive Bayes classifier for categorical data (email spam detector)."""
 
 
 

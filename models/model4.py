@@ -4,7 +4,7 @@ from matplotlib import colors
 from sklearn.datasets import make_blobs
 
 
-# A model (neural network) with two layers (input layer, hidden layer(1), output layer) to solve a classification problem
+"""A model (neural network) with two layers (input layer(0), hidden layer(1), output layer(2)) to solve a classification problem (Logistic Regression)"""
 
 
 class Classification(object):
