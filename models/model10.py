@@ -1,9 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import time
 
 
-""" Neural Networks for Handwritten Digit Recognition, Multiclass """
+""" Neural Networks for Handwritten Digit Recognition, Multiclass classification"""
 
 
 class NNL2(object):
@@ -67,29 +66,58 @@ class NNL2(object):
 
         return loss
 
-    def forward_propagation(self, X, W, b):
+    def forward_propagation(self, X, params, activations):
 
-        Z = np.matmul(W, X) + b
+        cache = {}
+        X=X
+        for i in range(1, int((len(params.keys())/2) + 1)):
+            Z = np.matmul(params[f"W{i}"], X)
+            Z += params[f"b{i}"]
+            cache[f"Z{i}"] = Z
+            X = Z
+            if activations[i-1] == "relu":
+                A = self.relu(Z)
+            else:
+                A = self.softmax(Z)
+            cache[f"A{i}"] = A
 
-        return Z
+        return cache
 
-    def back_propagation(self, X, Y, A, W, lam):
+    def back_propagation(self, X, Y, params, cache, lam):
 
-        m = X.shape[1]
-        dA = A - Y
-        dW = (np.matmul(dA, X.T) + (lam * W)) / m
-        db = np.sum(dA, axis=1, keepdims=True) / m
+        m = Y.shape[1]
 
-        return dW, db
+        grads = {}
+        st = int(len(params.keys()) / 2)
+        while st > 0:
+            if st == int(len(params.keys()) / 2):
+                dZ = cache[f"A{st}"] - Y
+            else:
+                dZ = np.matmul(params[f"W{st}"].T, grads[f"dZ{st}"]) * cache[f"A{st-1}"] * (1 - cache[f"A{st-1}"])
 
-    def param_update(self, W, b, dW, db, alpha):
+            grads[f"dZ{st}"] = dZ
 
-        W -= alpha * dW
-        b -= alpha * db
+            if st == 1:
+                dW = (np.matmul(grads["dZ1"], X.T)) + (lam * params[f"W{st}"]) / m
+                db = np.sum(grads["dZ1"], axis=1, keepdims=True)
+            else:
+                dW = (np.matmul(grads[f"dZ{st}"], cache[f"A{st-1}"].T)) + (lam * params[f"W{st}"]) / m
+                db = np.sum(grads[f"dZ{st}"], axis=1, keepdims=True)
+            grads[f"dW{st}"] = dW
+            grads[f"db{st}"] = db
 
-        return W, b
+        return grads
 
-    def train(self, X_train, Y_train, units):
+    def param_update(self, params, grads, alpha):
+
+        for i in range(1, int((len(params.keys())/2) + 1)):
+
+            params[f"W{i}"] -= grads[f"dW{i}"] * alpha
+            params[f"b{i}"] -= grads[f"db{i}"] * alpha
+
+        return params
+
+    def train(self, X_train, Y_train, units, activations):
         """
         X_train.shape = (number of features, number of instances)
         Y_train.shape = (1, number of instances)
@@ -119,52 +147,30 @@ class NNL2(object):
             X_batch = np.array([X_train[:, x] for x in indices]).T
             Y_batch = np.array([Y_train[:, y] for y in indices]).T
 
-            A = X_batch
-            for j in range(1, len(units)+1):
+            cache = self.forward_propagation(
+                X=X_batch,
+                params=self.params,
+                activations=activations
+            )
 
-                Z = self.forward_propagation(
-                    X=X_batch,
-                    W=self.params[f"W{j}"],
-                    b=self.params[f"b{j}"]
-                )
+            cost = self.cross_entropy(
+                Y=Y_batch,
+                A=cache[f"A{len(units)-1}"]
+            )
 
-                if j != len(units):
-                    A = self.relu(Z=Z)
-                else:
-                    A = self.softmax(Z=Z)
+            grads = self.back_propagation(
+                X=X_batch,
+                Y=Y_batch,
+                params=self.params,
+                cache=cache,
+                lam=self.lam
+            )
 
-            cost = self.cross_entropy(Y=Y_batch, A=A)
-
-            grads = {}
-            iters = len(units)
-
-            while iters > 0:
-
-                dW, db = self.back_propagation(
-                    X=X_batch,
-                    Y=Y_batch,
-                    A=A,
-                    W=self.params[f"W{iters}"],
-                    lam=self.lam
-                )
-
-                grads[f"dW{iters}"] = dW
-                grads[f"db{iters}"] = db
-                iters -= 1
-
-            up = len(units)
-            params = {}
-            while up > 0:
-                W, b = self.param_update(
-                    W=self.params[f"W{up}"],
-                    b=self.params[f"b{up}"],
-                    dW=grads[f"dW{up}"],
-                    db=grads[f"db{up}"],
-                    alpha=self.alpha
-                )
-
-                params[f"W{up}"] = W
-                params[f"b{up}"] = b
+            params = self.param_update(
+                params=self.params,
+                grads=grads,
+                alpha=self.alpha
+            )
 
             self.params = params
             self.cost[i] = cost
@@ -215,8 +221,33 @@ print(Y[100:120, :])
  [0]]
 """
 
+X_train = X[:3000, :]
+Y_train = Y[:3000, :]
+print(X_train.shape)
+print(Y_train.shape)
+"""
+(3000, 400)
+(3000, 1)
+"""
+
+X_test = X[3000:, :]
+Y_test = Y[3000:, :]
+print(X_test.shape)
+print(Y_test.shape)
+"""
+(2000, 400)
+(2000, 1)
+"""
+
+Xt= X_train.T
+Yt = Y_train.T
+print(X_train.shape)
+print(Y_train.shape)
+"""
+(400, 3000)
+(1, 3000)
+"""
 
 
-
-
-
+model = NNL2(epochs=50, params=None, alpha=0.2, beta=1e-2, sigma=1e-8, lam=1, print_cost=5, seed=42, batch=10)
+model.train(X_train=Xt, Y_train=Yt, units=[25, 15, 10], activations=["relu", "relu", "softmax"])
