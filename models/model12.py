@@ -15,6 +15,11 @@ class KMeansClustering(object):
         self.cost = []
         self.centroids = None
         self.indices = None
+        self.colors_named = ['blue', 'green', 'red', 'cyan', 'magenta', 
+                             'yellow', 'black', 'white', 'orange', 'purple',
+                             'brown', 'pink', 'gray', 'olive', 'teal', 'navy', 
+                             'maroon', 'turquoise', 'indigo', 'salmon']
+
 
     def centroid_init(self, X, K):
 
@@ -54,6 +59,57 @@ class KMeansClustering(object):
             centroids[i, :] = centroid
 
         return centroids
+    
+    
+    def predict(self, X_new):
+    
+        indices = []
+
+        if len(X_new) == 0:
+            raise ValueError("New example is empty !!!")
+        if X_new.shape[1] != self.centroids.shape[1]:
+            raise ValueError("New example and centroids must have the same number of columns")
+    
+        if self.centroids is None:
+            raise ValueError("Fit method must be called first to initialize centroids.")
+        
+        elif len(X_new) == 1:
+            K = self.centroids.shape[0]
+            dist = np.zeros(K)
+            for i, centroid in enumerate(self.centroids):
+                dist[i] = np.sum(np.power(X_new - centroid, 2))
+            indices.append(np.argmin(dist))
+        else:
+            ind = self.closest_centroids(X_new, self.centroids)
+            indices = list(ind)
+                              
+        return indices
+    
+    
+    def plot(self, X, centroids, indices, colors=None):
+
+        if not colors:
+            colors = self.colors_named
+
+        classes = {}
+        for i in range(centroids.shape[0]):
+
+            val = []
+            for j, index in enumerate(indices):
+                if index == i:
+                    val.append(X[j])
+            classes[f"C{i}"] = np.array(val)
+
+        for n, val in enumerate(classes.values()):
+
+            plt.scatter(val[:, 0], val[:, 1], color=colors[n])
+            n += 1
+        plt.scatter(centroids[:, 0], centroids[:, 1], color="black", marker="X")
+        plt.title("Clustering with K-Means Algorithm")
+        plt.show()
+
+
+    
 
     def fit(self, X, K):
 
@@ -89,7 +145,8 @@ data = make_blobs(n_samples=5000,
                    shuffle=True,
                    random_state=3,
                    return_centers=True
-                  )
+                   )
+
 
 print(data[0])
 """
@@ -149,6 +206,5 @@ print(model.cost)
 11871.720539215989, 10881.03276598686]
 """
 
-plt.plot(model.cost)
-plt.show()
+model.plot(X=data[0], centroids=model.centroids, indices=model.indices)
 
