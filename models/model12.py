@@ -15,11 +15,11 @@ class KMeansClustering(object):
         self.cost = []
         self.centroids = None
         self.indices = None
-        self.colors_named = ['blue', 'green', 'red', 'cyan', 'magenta', 
-                             'yellow', 'black', 'white', 'orange', 'purple',
-                             'brown', 'pink', 'gray', 'olive', 'teal', 'navy', 
-                             'maroon', 'turquoise', 'indigo', 'salmon']
 
+        self.colors_named = ['blue', 'green', 'red', 'cyan', 'magenta',
+                                 'yellow', 'black', 'white', 'orange', 'purple',
+                                 'brown', 'pink', 'gray', 'olive', 'teal', 'navy',
+                                 'maroon', 'turquoise', 'indigo', 'salmon']
 
     def centroid_init(self, X, K):
 
@@ -90,7 +90,8 @@ class KMeansClustering(object):
 
         if not colors:
             colors = self.colors_named
-
+        if len(colors) < centroids.shape[0]:
+            raise ValueError("The number of colors in colors must be equal or more than the number of centroids.")
         classes = {}
         for i in range(centroids.shape[0]):
 
