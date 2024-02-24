@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import csv
 
+""" Implement content based filtering algorithm with tensorflow """
 
 class ContentBasedFiltering(object):
 
