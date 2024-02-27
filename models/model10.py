@@ -2,7 +2,7 @@ import numpy as np
 import time
 
 
-""" Neural Networks for Handwritten Digit Recognition, Multiclass classification"""
+""" Neural Network for Handwritten Digit Recognition, Multiclass classification"""
 
 
 class NNL2(object):
