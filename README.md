@@ -49,3 +49,5 @@ Feel free to explore the models and adapt them to your own projects and datasets
 | ***[PCA](https://github.com/LoqmanSamani/machine-learning/blob/systembiology/models/PCA.py)***                                          | Principal Component Analysis (PCA) for reducing the dimensions of a dataset. It identifies the directions (principal components) that capture the most variance in the data and projects the data onto these components to achieve dimensionality reduction.                                                                   |
 
 
+This project is licensed under the [MIT LICENSE](https://github.com/LoqmanSamani/machine-learning/blob/systembiology/LICENSE)
+
