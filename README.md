@@ -1,5 +1,17 @@
 <h2>Machine Learning Repository</h2>
 
+
+![Static Badge](https://img.shields.io/badge/license-MIT-red?style=plastic)
+![Static Badge](https://img.shields.io/badge/python-blue?style=plastic&logo=python&logoColor=white)
+![Static Badge](https://img.shields.io/badge/TensorFlow-white?style=plastic&logo=tensorflow)
+![Static Badge](https://img.shields.io/badge/scikit_learn-orange?style=plastic&logo=scikit-learn&logoColor=white)
+![Static Badge](https://img.shields.io/badge/numpy-midnightblue?style=plastic&logo=NumPy)
+![Static Badge](https://img.shields.io/badge/pandas-blue?style=plastic&logo=pandas)
+![Static Badge](https://img.shields.io/badge/matplotlib-yellow?style=plastic&logo=seaborn&logoColor=white)
+![Static Badge](https://img.shields.io/badge/seaborn-red?style=plastic&logo=seaborn)
+![Static Badge](https://img.shields.io/badge/SciPy-darkblue?style=plastic&logo=scipy&logoColor=white)
+![Static Badge](https://img.shields.io/badge/SymPy-lightgreen?style=plastic&logo=sympy)
+
 Welcome to my Machine Learning Repository! This repository contains materials, tasks, and projects that I completed during my journey of learning machine learning through two specialization courses offered by ***[DeepLearning.AI](https://www.deeplearning.ai)*** on ***[Coursera](https://www.coursera.org/)***.
 
 
